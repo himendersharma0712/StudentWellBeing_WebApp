@@ -221,7 +221,7 @@
     const chatbotInput = document.getElementById('chatbot-input');
     const chatbotWindow = document.getElementById('chatbot-window');
   
-    chatbotForm.addEventListener('submit', async function (e) {
+    chatbotForm.addEventListener('submit', async function(e) {
       e.preventDefault();
       const userMsg = chatbotInput.value.trim();
       if (!userMsg) return;
@@ -231,25 +231,23 @@
       chatbotWindow.scrollTop = chatbotWindow.scrollHeight;
   
       try {
-        const res = await fetch('http://localhost:8000/chat', {
+        const response = await fetch('http://localhost:8000/chat', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            input: userMsg,
-            history: [] // optionally maintain a history if you want
-          }),
+          body: JSON.stringify({ message: userMsg })
         });
   
-        const data = await res.json();
-        appendMessage(data.response, 'bot');
-      } catch (err) {
-        console.error('❌ Error:', err);
-        appendMessage("Backend ka server down hai ya kuch gadbad hai 😕", 'bot');
-      }
+        const data = await response.json();
+        const botReply = data.response || 'Sorry, I didn’t get that.';
   
-      chatbotWindow.scrollTop = chatbotWindow.scrollHeight;
+        appendMessage(botReply, 'bot');
+        chatbotWindow.scrollTop = chatbotWindow.scrollHeight;
+      } catch (error) {
+        console.error('Error talking to chatbot:', error);
+        appendMessage('⚠️ There was a problem connecting to the chatbot.', 'bot');
+      }
     });
   
     function appendMessage(text, sender) {
