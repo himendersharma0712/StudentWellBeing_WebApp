@@ -268,6 +268,51 @@
         font-size: 0.92rem;
       }
     }
+
+    .fab-container {
+  position: fixed;
+  right: 2.5vmin;
+  bottom: 2.5vmin;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column-reverse;
+  place-items: center;
+}
+
+.fab {
+  background: #79b4b7;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  box-shadow: 0 4px 16px #23415a33;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+  outline: none;
+}
+.fab:active {
+  transform: scale(0.96);
+}
+.fab:focus-visible {
+  box-shadow: 0 0 0 4px #bce6eb;
+}
+.fab svg {
+  display: block;
+}
+@media (max-width: 600px) {
+  .fab {
+    width: 52px;
+    height: 52px;
+  }
+  .fab-container {
+    right: 2vw;
+    bottom: 2vw;
+  }
+}
   </style>
 </head>
 <body>
@@ -280,193 +325,8 @@
     <a href="#journal">Journal</a>
     <a href="#selfcare">Self-Care</a>
     <a href="#resources">Resources</a>
+    <a href="chatbot.html">Chatbot</a>
   </nav>
-  <!-- Chatbot Section: Place this after <nav> and before <main> -->
-<section id="chatbot" style="margin-bottom:2.5rem;">
-  <div class="chatbot-container">
-    <h2 class="chatbot-title">💬 Student Support Chatbot</h2>
-    <div class="chatbot-window" id="chatbot-window">
-      <div class="chatbot-message bot">
-        <div class="avatar bot-avatar">🤖</div>
-        <div class="msg">Hello! I'm here to support your well-being. How can I help you today?</div>
-      </div>
-      <!-- Messages will be appended here -->
-    </div>
-    <form class="chatbot-input-area" id="chatbot-form" autocomplete="off">
-      <input type="text" id="chatbot-input" placeholder="Type your message..." aria-label="Type your message" required />
-      <button type="submit" id="chatbot-send">Send</button>
-    </form>
-  </div>
-</section>
-
-<style>
-/* Chatbot UI Styles */
-.chatbot-container {
-  max-width: 600px;
-  margin: 0 auto 2.5rem auto;
-  background: #e3f6f5;
-  border-radius: 18px;
-  box-shadow: 0 2px 8px #c7dbe6;
-  padding: 1.5rem 1rem 1rem 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-.chatbot-title {
-  text-align: center;
-  color: #23415a;
-  margin-top: 0;
-  margin-bottom: 1rem;
-  font-size: 1.4rem;
-  letter-spacing: 0.01em;
-}
-.chatbot-window {
-  background: #fff;
-  border-radius: 12px;
-  min-height: 220px;
-  max-height: 340px;
-  overflow-y: auto;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 1px 4px #e3e8ee;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-}
-.chatbot-message {
-  display: flex;
-  align-items: flex-end;
-  gap: 0.7rem;
-  font-size: 1.05rem;
-}
-.chatbot-message.bot {
-  flex-direction: row;
-}
-.chatbot-message.user {
-  flex-direction: row-reverse;
-}
-.avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #79b4b7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  color: #fff;
-}
-.bot-avatar {
-  background: #79b4b7;
-}
-.user-avatar {
-  background: #23415a;
-}
-.msg {
-  background: #e3f6f5;
-  color: #23415a;
-  border-radius: 12px;
-  padding: 0.5em 1em;
-  max-width: 70vw;
-  word-break: break-word;
-  box-shadow: 0 1px 2px #e3e8ee;
-}
-.chatbot-message.user .msg {
-  background: #79b4b7;
-  color: #fff;
-}
-.chatbot-input-area {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-#chatbot-input {
-  flex: 1;
-  padding: 0.7rem;
-  border-radius: 8px;
-  border: 1px solid #c7dbe6;
-  font-size: 1rem;
-  outline: none;
-  background: #fff;
-  color: #23415a;
-}
-#chatbot-send {
-  background: #79b4b7;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 0 1.2rem;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-#chatbot-send:hover, #chatbot-send:focus {
-  background: #23415a;
-}
-
-@media (max-width: 700px) {
-  .chatbot-container { max-width: 98vw; }
-  .chatbot-window { max-height: 250px; font-size: 0.97rem; }
-}
-@media (max-width: 500px) {
-  .chatbot-container { padding: 1rem 0.2rem 0.7rem 0.2rem; }
-  .chatbot-title { font-size: 1.1rem; }
-  .chatbot-window { padding: 0.6rem; }
-  .msg { font-size: 0.97rem; }
-  #chatbot-input { font-size: 0.96rem; }
-}
-</style>
-
-<script>
-// Basic Chatbot UI logic (demo, not connected to backend)
-const chatbotForm = document.getElementById('chatbot-form');
-const chatbotInput = document.getElementById('chatbot-input');
-const chatbotWindow = document.getElementById('chatbot-window');
-
-chatbotForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const userMsg = chatbotInput.value.trim();
-  if (!userMsg) return;
-  appendMessage(userMsg, 'user');
-  chatbotInput.value = '';
-  chatbotWindow.scrollTop = chatbotWindow.scrollHeight;
-  // Simulate bot response (replace with API call as needed)
-  setTimeout(() => {
-    appendMessage(getBotReply(userMsg), 'bot');
-    chatbotWindow.scrollTop = chatbotWindow.scrollHeight;
-  }, 700);
-});
-
-function appendMessage(text, sender) {
-  const msgDiv = document.createElement('div');
-  msgDiv.className = 'chatbot-message ' + sender;
-  msgDiv.innerHTML = `
-    <div class="avatar ${sender === 'bot' ? 'bot-avatar' : 'user-avatar'}">
-      ${sender === 'bot' ? '🤖' : '🧑'}
-    </div>
-    <div class="msg">${text}</div>
-  `;
-  chatbotWindow.appendChild(msgDiv);
-}
-
-// Demo bot reply function (replace with real logic or API)
-function getBotReply(userMsg) {
-  const msg = userMsg.toLowerCase();
-  if (msg.includes('hello') || msg.includes('hi')) {
-    return "Hi there! How are you feeling today?";
-  }
-  if (msg.includes('help')) {
-    return "I'm here to help. You can ask me about mood tracking, self-care tips, or campus resources!";
-  }
-  if (msg.includes('sad') || msg.includes('stressed')) {
-    return "I'm sorry you're feeling that way. Would you like some self-care suggestions or to talk more about it?";
-  }
-  if (msg.includes('thank')) {
-    return "You're welcome! 😊";
-  }
-  return "Let me know how I can support you. Try asking about mood tracking, journaling, or resources.";
-}
-</script>
   <main>
     <section id="mood">
       <h2>Mood Tracker 🧠</h2>
@@ -698,5 +558,14 @@ function getBotReply(userMsg) {
       saveStreak(streak, getTodayDate());
     });
   </script>
+    <!-- Floating Action Button -->
+    <div class="fab-container" role="group" aria-label="Floating action button">
+      <button class="fab" title="Chat with Support Bot" aria-label="Chat with Support Bot" onclick="window.location.href='chatbot.html'">
+        <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" fill="#79b4b7"/>
+          <path d="M8 12h8M12 8v8" stroke="#fff"/>
+        </svg>
+      </button>
+    </div>
 </body>
 </html>
