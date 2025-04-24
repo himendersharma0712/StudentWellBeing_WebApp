@@ -269,48 +269,46 @@
       }
     }
 
-    .fab-container {
+.fab-extended-container {
   position: fixed;
   right: 2.5vmin;
   bottom: 2.5vmin;
   z-index: 1000;
   display: flex;
   flex-direction: column-reverse;
-  place-items: center;
+  align-items: flex-end;
 }
 
-.fab {
+.fab-extended {
+  display: flex;
+  align-items: center;
   background: #79b4b7;
   color: #fff;
   border: none;
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
+  border-radius: 32px;
   box-shadow: 0 4px 16px #23415a33;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0.7em 1.4em 0.7em 1em;
+  font-size: 1.13rem;
+  font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
   outline: none;
+  gap: 0.7em;
 }
-.fab:active {
-  transform: scale(0.96);
+.fab-extended:active {
+  transform: scale(0.97);
 }
-.fab:focus-visible {
+.fab-extended:focus-visible {
   box-shadow: 0 0 0 4px #bce6eb;
 }
-.fab svg {
-  display: block;
+.fab-extended .fab-icon {
+  font-size: 1.5em;
+  margin-right: 0.2em;
 }
 @media (max-width: 600px) {
-  .fab {
-    width: 52px;
-    height: 52px;
-  }
-  .fab-container {
-    right: 2vw;
-    bottom: 2vw;
+  .fab-extended {
+    font-size: 1rem;
+    padding: 0.6em 1em 0.6em 0.8em;
   }
 }
   </style>
@@ -567,5 +565,10 @@
         </svg>
       </button>
     </div>
+    <div class="fab-extended-container" role="group" aria-label="Floating action button">
+      <button class="fab-extended" onclick="window.location.href='chatbot.html'" aria-label="Talk to our chatbot">
+        <span class="fab-icon" aria-hidden="true">💬</span>
+        Talk to our chatbot
+      </button>
 </body>
 </html>
