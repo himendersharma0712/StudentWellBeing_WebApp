@@ -275,95 +275,93 @@
     <h1>Student Well-Being</h1>
     <p>Your private space for mood tracking, journaling, and self-care.</p>
   </header>
-  <div class="container">
-    <nav>
-      <a href="#mood">Mood Tracker</a>
-      <a href="#journal">Journal</a>
-      <a href="#selfcare">Self-Care</a>
-      <a href="#resources">Resources</a>
-    </nav>
-    <main>
-        <section id="mood">
-            <h2>Mood Tracker</h2>
-            <div class="streak-box" id="streakBox">
-              🌟 Current Streak: <span id="streakCount">0</span> days
-            </div>
-            <div class="calendar-container">
-              <div class="calendar-title" id="calendarTitle"></div>
-              <div class="calendar" id="calendar"></div>
-            </div>
-            <div class="mood-options">
-              <button class="mood-btn" title="Happy" onclick="logMood('happy')">😊</button>
-              <button class="mood-btn" title="Calm" onclick="logMood('calm')">😌</button>
-              <button class="mood-btn" title="Okay" onclick="logMood('okay')">😐</button>
-              <button class="mood-btn" title="Sad" onclick="logMood('sad')">😔</button>
-              <button class="mood-btn" title="Stressed" onclick="logMood('stressed')">😣</button>
-            </div>
-            <small>Track your mood every day to spot patterns and keep your streak going!</small>
-            <div id="moodMessage" style="margin-top:1rem;color:#79b4b7;font-weight:bold;"></div>
-          </section>
-          <section id="journal">
-              <h2>Private Journal</h2>
-              <textarea id="journalEntry" placeholder="Write your thoughts, feelings, or reflections here..."></textarea>
-              <button onclick="saveJournalEntry()" style="background:#79b4b7;">Save Entry</button>
-              <p id="saveMessage" style="color:#79b4b7; font-weight:bold;"></p>
-              <p style="margin-top:1em;">
-                <a href="journal_entries.html" style="color:#79b4b7; font-weight:bold;">View All Journal Entries &rarr;</a>
-              </p>
-            </section>
-            <script>
-              function saveJournalEntry() {
-                const entry = document.getElementById('journalEntry').value.trim();
-                if (!entry) {
-                  document.getElementById('saveMessage').textContent = 'Please write something before saving.';
-                  return;
-                }
-                // Load existing entries
-                let entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
-                // Add new entry with timestamp
-                entries.push({ text: entry, date: new Date().toISOString() });
-                // Save back to localStorage
-                localStorage.setItem('journalEntries', JSON.stringify(entries));
-                document.getElementById('saveMessage').textContent = 'Entry saved!';
-                document.getElementById('journalEntry').value = '';
-              }
-            </script>      
-          <section id="selfcare">
-            <h2>Self-Care Checklist</h2>
-            <ul class="checklist">
-              <li><input type="checkbox" id="water"><label for="water">Drank enough water</label></li>
-              <li><input type="checkbox" id="move"><label for="move">Moved my body</label></li>
-              <li><input type="checkbox" id="break"><label for="break">Took a mindful break</label></li>
-              <li><input type="checkbox" id="sleep"><label for="sleep">Got enough sleep</label></li>
-            </ul>
-          </section>
-          <section id="resources">
-            <h2>Wellness Resources</h2>
-            <div class="resources">
-              <div class="resource-card">
-                <strong>Student Helpline</strong>
-                <p>Free, confidential support 24/7.</p>
-                <a href="#" style="color:#79b4b7;">Learn more</a>
-              </div>
-              <div class="resource-card">
-                <strong>Meditation App</strong>
-                <p>Guided meditations for stress relief.</p>
-                <a href="#" style="color:#79b4b7;">Try now</a>
-              </div>
-              <div class="resource-card">
-                <strong>Motivational Articles</strong>
-                <p>Read uplifting stories and tips.</p>
-                <a href="#" style="color:#79b4b7;">Read articles</a>
-              </div>
-              <div class="resource-card">
-                <strong>Campus Counseling</strong>
-                <p>Book a session with a campus counselor.</p>
-                <a href="#" style="color:#79b4b7;">Book now</a>
-              </div>
-            </div>
-          </section>
-    </main>
-  </div>
+  <nav>
+    <a href="#mood">Mood Tracker</a>
+    <a href="#journal">Journal</a>
+    <a href="#selfcare">Self-Care</a>
+    <a href="#resources">Resources</a>
+  </nav>
+  <main>
+    <section id="mood">
+      <h2>Mood Tracker</h2>
+      <div class="streak-box" id="streakBox">
+        🌟 Current Streak: <span id="streakCount">0</span> days
+      </div>
+      <div class="calendar-container">
+        <div class="calendar-title" id="calendarTitle"></div>
+        <div class="calendar" id="calendar"></div>
+      </div>
+      <div class="mood-options">
+        <button class="mood-btn" title="Happy" onclick="logMood('happy')">😊</button>
+        <button class="mood-btn" title="Calm" onclick="logMood('calm')">😌</button>
+        <button class="mood-btn" title="Okay" onclick="logMood('okay')">😐</button>
+        <button class="mood-btn" title="Sad" onclick="logMood('sad')">😔</button>
+        <button class="mood-btn" title="Stressed" onclick="logMood('stressed')">😣</button>
+      </div>
+      <small>Track your mood every day to spot patterns and keep your streak going!</small>
+      <div id="moodMessage" style="margin-top:1rem;color:#79b4b7;font-weight:bold;"></div>
+    </section>
+    <section id="journal">
+        <h2>Private Journal</h2>
+        <textarea id="journalEntry" placeholder="Write your thoughts, feelings, or reflections here..."></textarea>
+        <button onclick="saveJournalEntry()" style="background:#79b4b7;">Save Entry</button>
+        <p id="saveMessage" style="color:#79b4b7; font-weight:bold;"></p>
+        <p style="margin-top:1em;">
+          <a href="journal_entries.html" style="color:#79b4b7; font-weight:bold;">View All Journal Entries &rarr;</a>
+        </p>
+      </section>
+      <script>
+        function saveJournalEntry() {
+          const entry = document.getElementById('journalEntry').value.trim();
+          if (!entry) {
+            document.getElementById('saveMessage').textContent = 'Please write something before saving.';
+            return;
+          }
+          // Load existing entries
+          let entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+          // Add new entry with timestamp
+          entries.push({ text: entry, date: new Date().toISOString() });
+          // Save back to localStorage
+          localStorage.setItem('journalEntries', JSON.stringify(entries));
+          document.getElementById('saveMessage').textContent = 'Entry saved!';
+          document.getElementById('journalEntry').value = '';
+        }
+      </script>      
+    <section id="selfcare">
+      <h2>Self-Care Checklist</h2>
+      <ul class="checklist">
+        <li><input type="checkbox" id="water"><label for="water">Drank enough water</label></li>
+        <li><input type="checkbox" id="move"><label for="move">Moved my body</label></li>
+        <li><input type="checkbox" id="break"><label for="break">Took a mindful break</label></li>
+        <li><input type="checkbox" id="sleep"><label for="sleep">Got enough sleep</label></li>
+      </ul>
+    </section>
+    <section id="resources">
+      <h2>Wellness Resources</h2>
+      <div class="resources">
+        <div class="resource-card">
+          <strong>Student Helpline</strong>
+          <p>Free, confidential support 24/7.</p>
+          <a href="#" style="color:#79b4b7;">Learn more</a>
+        </div>
+        <div class="resource-card">
+          <strong>Meditation App</strong>
+          <p>Guided meditations for stress relief.</p>
+          <a href="#" style="color:#79b4b7;">Try now</a>
+        </div>
+        <div class="resource-card">
+          <strong>Motivational Articles</strong>
+          <p>Read uplifting stories and tips.</p>
+          <a href="#" style="color:#79b4b7;">Read articles</a>
+        </div>
+        <div class="resource-card">
+          <strong>Campus Counseling</strong>
+          <p>Book a session with a campus counselor.</p>
+          <a href="#" style="color:#79b4b7;">Book now</a>
+        </div>
+      </div>
+    </section>
+  </main>
   <footer style="text-align:center; padding:1rem; color:#23415a; background:#e3f6f5; border-top-left-radius: 24px; border-top-right-radius: 24px;">
     &copy; 2025 Student Well-Being App &mdash; Your privacy matters.
   </footer>
