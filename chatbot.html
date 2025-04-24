@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Student Support Chatbot</title>
@@ -15,6 +16,7 @@
       flex-direction: column;
       align-items: center;
     }
+
     header {
       background: #79b4b7;
       color: #fff;
@@ -25,6 +27,7 @@
       width: 100%;
       box-sizing: border-box;
     }
+
     .chatbot-container {
       max-width: 600px;
       width: 100%;
@@ -37,6 +40,7 @@
       flex-direction: column;
       align-items: stretch;
     }
+
     .chatbot-title {
       text-align: center;
       color: #23415a;
@@ -45,6 +49,7 @@
       font-size: 1.4rem;
       letter-spacing: 0.01em;
     }
+
     .chatbot-window {
       background: #fff;
       border-radius: 12px;
@@ -58,18 +63,22 @@
       flex-direction: column;
       gap: 0.7rem;
     }
+
     .chatbot-message {
       display: flex;
       align-items: flex-end;
       gap: 0.7rem;
       font-size: 1.05rem;
     }
+
     .chatbot-message.bot {
       flex-direction: row;
     }
+
     .chatbot-message.user {
       flex-direction: row-reverse;
     }
+
     .avatar {
       width: 32px;
       height: 32px;
@@ -81,12 +90,15 @@
       font-size: 1.3rem;
       color: #fff;
     }
+
     .bot-avatar {
       background: #79b4b7;
     }
+
     .user-avatar {
       background: #23415a;
     }
+
     .msg {
       background: #e3f6f5;
       color: #23415a;
@@ -96,15 +108,18 @@
       word-break: break-word;
       box-shadow: 0 1px 2px #e3e8ee;
     }
+
     .chatbot-message.user .msg {
       background: #79b4b7;
       color: #fff;
     }
+
     .chatbot-input-area {
       display: flex;
       gap: 0.5rem;
       margin-top: 0.5rem;
     }
+
     #chatbot-input {
       flex: 1;
       padding: 0.7rem;
@@ -115,6 +130,7 @@
       background: #fff;
       color: #23415a;
     }
+
     #chatbot-send {
       background: #79b4b7;
       color: #fff;
@@ -125,9 +141,12 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-    #chatbot-send:hover, #chatbot-send:focus {
+
+    #chatbot-send:hover,
+    #chatbot-send:focus {
       background: #23415a;
     }
+
     .back-link {
       display: block;
       margin: 2rem auto 1rem auto;
@@ -137,22 +156,46 @@
       font-weight: bold;
       font-size: 1.1rem;
     }
+
     .back-link:hover {
       text-decoration: underline;
     }
+
     @media (max-width: 700px) {
-      .chatbot-container { max-width: 98vw; }
-      .chatbot-window { max-height: 250px; font-size: 0.97rem; }
+      .chatbot-container {
+        max-width: 98vw;
+      }
+
+      .chatbot-window {
+        max-height: 250px;
+        font-size: 0.97rem;
+      }
     }
+
     @media (max-width: 500px) {
-      .chatbot-container { padding: 1rem 0.2rem 0.7rem 0.2rem; }
-      .chatbot-title { font-size: 1.1rem; }
-      .chatbot-window { padding: 0.6rem; }
-      .msg { font-size: 0.97rem; }
-      #chatbot-input { font-size: 0.96rem; }
+      .chatbot-container {
+        padding: 1rem 0.2rem 0.7rem 0.2rem;
+      }
+
+      .chatbot-title {
+        font-size: 1.1rem;
+      }
+
+      .chatbot-window {
+        padding: 0.6rem;
+      }
+
+      .msg {
+        font-size: 0.97rem;
+      }
+
+      #chatbot-input {
+        font-size: 0.96rem;
+      }
     }
   </style>
 </head>
+
 <body>
   <header>
     <h1>Student Support Chatbot</h1>
@@ -167,31 +210,48 @@
       </div>
     </div>
     <form class="chatbot-input-area" id="chatbot-form" autocomplete="off">
-      <input type="text" id="chatbot-input" placeholder="Type your message..." aria-label="Type your message" required />
+      <input type="text" id="chatbot-input" placeholder="Type your message..." aria-label="Type your message"
+        required />
       <button type="submit" id="chatbot-send">Send</button>
     </form>
   </div>
   <a href="index.html" class="back-link">&larr; Back to Well-Being App</a>
   <script>
-    // Basic Chatbot UI logic (demo, not connected to backend)
     const chatbotForm = document.getElementById('chatbot-form');
     const chatbotInput = document.getElementById('chatbot-input');
     const chatbotWindow = document.getElementById('chatbot-window');
-
-    chatbotForm.addEventListener('submit', function(e) {
+  
+    chatbotForm.addEventListener('submit', async function (e) {
       e.preventDefault();
       const userMsg = chatbotInput.value.trim();
       if (!userMsg) return;
+  
       appendMessage(userMsg, 'user');
       chatbotInput.value = '';
       chatbotWindow.scrollTop = chatbotWindow.scrollHeight;
-      // Simulate bot response (replace with API call as needed)
-      setTimeout(() => {
-        appendMessage(getBotReply(userMsg), 'bot');
-        chatbotWindow.scrollTop = chatbotWindow.scrollHeight;
-      }, 700);
+  
+      try {
+        const res = await fetch('http://localhost:8000/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            input: userMsg,
+            history: [] // optionally maintain a history if you want
+          }),
+        });
+  
+        const data = await res.json();
+        appendMessage(data.response, 'bot');
+      } catch (err) {
+        console.error('❌ Error:', err);
+        appendMessage("Backend ka server down hai ya kuch gadbad hai 😕", 'bot');
+      }
+  
+      chatbotWindow.scrollTop = chatbotWindow.scrollHeight;
     });
-
+  
     function appendMessage(text, sender) {
       const msgDiv = document.createElement('div');
       msgDiv.className = 'chatbot-message ' + sender;
@@ -203,24 +263,8 @@
       `;
       chatbotWindow.appendChild(msgDiv);
     }
-
-    // Demo bot reply function (replace with real logic or API)
-    function getBotReply(userMsg) {
-      const msg = userMsg.toLowerCase();
-      if (msg.includes('hello') || msg.includes('hi')) {
-        return "Hi there! How are you feeling today?";
-      }
-      if (msg.includes('help')) {
-        return "I'm here to help. You can ask me about mood tracking, self-care tips, or campus resources!";
-      }
-      if (msg.includes('sad') || msg.includes('stressed')) {
-        return "I'm sorry you're feeling that way. Would you like some self-care suggestions or to talk more about it?";
-      }
-      if (msg.includes('thank')) {
-        return "You're welcome! 😊";
-      }
-      return "Let me know how I can support you. Try asking about mood tracking, journaling, or resources.";
-    }
   </script>
+  
 </body>
+
 </html>
