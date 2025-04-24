@@ -1,152 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <title>Student Support Chatbot</title>
+  <title>MindMate AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f4f9fb;
+    html, body {
+      height: 100%;
       margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #e3f6f5 0%, #f4f9fb 100%);
       color: #23415a;
+      font-family: 'Segoe UI', Arial, sans-serif;
       min-height: 100vh;
+      width: 100vw;
+    }
+    body {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      min-height: 100vh;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
     }
-
-    header {
+    .chatbot-wide-container {
+      width: 100vw;
+      min-height: 100vh;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+    }
+    .chatbot-wide-box {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 4px 32px #bce6eb77, 0 1.5px 8px #c7dbe6;
+      width: 96vw;
+      max-width: 1200px;
+      height: 85vh;
+      min-height: 500px;
+      max-height: 900px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      margin: 0 auto;
+      position: relative;
+      transition: box-shadow 0.2s;
+    }
+    .chatbot-header {
       background: #79b4b7;
       color: #fff;
-      padding: 2rem 1rem 1rem 1rem;
+      padding: 1.2rem 2rem;
       text-align: center;
-      border-bottom-left-radius: 24px;
-      border-bottom-right-radius: 24px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .chatbot-container {
-      max-width: 600px;
-      width: 100%;
-      margin: 2rem auto 2.5rem auto;
-      background: #e3f6f5;
-      border-radius: 18px;
-      box-shadow: 0 2px 8px #c7dbe6;
-      padding: 1.5rem 1rem 1rem 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    .chatbot-title {
-      text-align: center;
-      color: #23415a;
-      margin-top: 0;
-      margin-bottom: 1rem;
-      font-size: 1.4rem;
+      font-size: 1.7rem;
+      font-weight: bold;
       letter-spacing: 0.01em;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      box-shadow: 0 2px 8px #e3e8ee44;
     }
-
     .chatbot-window {
-      background: #fff;
-      border-radius: 12px;
-      min-height: 220px;
-      max-height: 340px;
+      flex: 1 1 0%;
+      background: #f4f9fb;
+      padding: 1.3rem 2.2rem 1rem 2.2rem;
       overflow-y: auto;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 1px 4px #e3e8ee;
       display: flex;
       flex-direction: column;
-      gap: 0.7rem;
+      gap: 1.1rem;
+      font-size: 1.15rem;
+      scroll-behavior: smooth;
     }
-
     .chatbot-message {
       display: flex;
       align-items: flex-end;
       gap: 0.7rem;
-      font-size: 1.05rem;
+      font-size: 1.13rem;
+      line-height: 1.5;
     }
-
     .chatbot-message.bot {
       flex-direction: row;
     }
-
     .chatbot-message.user {
       flex-direction: row-reverse;
     }
-
     .avatar {
-      width: 32px;
-      height: 32px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       background: #79b4b7;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       color: #fff;
+      flex-shrink: 0;
     }
-
-    .bot-avatar {
-      background: #79b4b7;
-    }
-
     .user-avatar {
       background: #23415a;
     }
-
     .msg {
       background: #e3f6f5;
       color: #23415a;
-      border-radius: 12px;
-      padding: 0.5em 1em;
+      border-radius: 16px;
+      padding: 0.7em 1.2em;
       max-width: 70vw;
-      word-break: break-word;
+      min-width: 2em;
       box-shadow: 0 1px 2px #e3e8ee;
+      word-break: break-word;
+      font-size: 1.13rem;
+      transition: background 0.2s;
     }
-
     .chatbot-message.user .msg {
       background: #79b4b7;
       color: #fff;
     }
-
     .chatbot-input-area {
       display: flex;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
+      gap: 0.7rem;
+      padding: 1.1rem 2.2rem 1.1rem 2.2rem;
+      background: #fff;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+      box-shadow: 0 -1px 8px #e3e8ee33;
     }
-
     #chatbot-input {
       flex: 1;
-      padding: 0.7rem;
-      border-radius: 8px;
-      border: 1px solid #c7dbe6;
-      font-size: 1rem;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      border: 1.5px solid #c7dbe6;
+      font-size: 1.1rem;
       outline: none;
-      background: #fff;
+      background: #f4f9fb;
       color: #23415a;
+      transition: border 0.2s;
     }
-
+    #chatbot-input:focus {
+      border: 1.5px solid #79b4b7;
+    }
     #chatbot-send {
       background: #79b4b7;
       color: #fff;
       border: none;
-      border-radius: 8px;
-      padding: 0 1.2rem;
-      font-size: 1rem;
+      border-radius: 12px;
+      padding: 0 2rem;
+      font-size: 1.1rem;
       cursor: pointer;
       transition: background 0.2s;
+      font-weight: 600;
     }
-
     #chatbot-send:hover,
     #chatbot-send:focus {
       background: #23415a;
     }
-
     .back-link {
       display: block;
       margin: 2rem auto 1rem auto;
@@ -155,81 +162,69 @@
       text-decoration: none;
       font-weight: bold;
       font-size: 1.1rem;
+      letter-spacing: 0.01em;
     }
-
     .back-link:hover {
       text-decoration: underline;
     }
-
-    @media (max-width: 700px) {
-      .chatbot-container {
-        max-width: 98vw;
+    @media (max-width: 900px) {
+      .chatbot-wide-box {
+        width: 99vw;
+        max-width: 99vw;
+        height: 98vh;
+        min-height: 90vh;
+        border-radius: 0;
       }
-
+      .chatbot-header, .chatbot-input-area {
+        border-radius: 0;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
       .chatbot-window {
-        max-height: 250px;
-        font-size: 0.97rem;
+        padding: 1rem 0.5rem 0.7rem 0.5rem;
+        font-size: 1rem;
       }
+      .msg { font-size: 1rem; max-width: 90vw; }
     }
-
-    @media (max-width: 500px) {
-      .chatbot-container {
-        padding: 1rem 0.2rem 0.7rem 0.2rem;
-      }
-
-      .chatbot-title {
-        font-size: 1.1rem;
-      }
-
-      .chatbot-window {
-        padding: 0.6rem;
-      }
-
-      .msg {
-        font-size: 0.97rem;
-      }
-
-      #chatbot-input {
-        font-size: 0.96rem;
-      }
+    @media (max-width: 600px) {
+      .chatbot-header { font-size: 1.13rem; }
+      .chatbot-input-area { padding: 0.7rem 0.7rem; }
+      .msg { font-size: 0.97rem; }
     }
   </style>
 </head>
-
 <body>
-  <header>
-    <h1>Student Support Chatbot</h1>
-    <p>Your confidential, 24/7 well-being companion.</p>
-  </header>
-  <div class="chatbot-container">
-    <h2 class="chatbot-title">💬 Chat with your Student Support Bot</h2>
-    <div class="chatbot-window" id="chatbot-window">
-      <div class="chatbot-message bot">
-        <div class="avatar bot-avatar">🤖</div>
-        <div class="msg">Hello! I'm here to support your well-being. How can I help you today?</div>
+  <div class="chatbot-wide-container">
+    <div class="chatbot-wide-box">
+      <div class="chatbot-header">
+        💬 MindMate AI (powered by LLama 2)
       </div>
+      <div class="chatbot-window" id="chatbot-window">
+        <div class="chatbot-message bot">
+          <div class="avatar">🤖</div>
+          <div class="msg">Hello! I'm MindMate. How are you feeling today?</div>
+        </div>
+      </div>
+      <form class="chatbot-input-area" id="chatbot-form" autocomplete="off">
+        <input type="text" id="chatbot-input" placeholder="Type your message..." aria-label="Type your message" required />
+        <button type="submit" id="chatbot-send">Send</button>
+      </form>
     </div>
-    <form class="chatbot-input-area" id="chatbot-form" autocomplete="off">
-      <input type="text" id="chatbot-input" placeholder="Type your message..." aria-label="Type your message"
-        required />
-      <button type="submit" id="chatbot-send">Send</button>
-    </form>
   </div>
   <a href="index.html" class="back-link">&larr; Back to Well-Being App</a>
   <script>
     const chatbotForm = document.getElementById('chatbot-form');
     const chatbotInput = document.getElementById('chatbot-input');
     const chatbotWindow = document.getElementById('chatbot-window');
-  
+
     chatbotForm.addEventListener('submit', async function(e) {
       e.preventDefault();
       const userMsg = chatbotInput.value.trim();
       if (!userMsg) return;
-  
       appendMessage(userMsg, 'user');
       chatbotInput.value = '';
       chatbotWindow.scrollTop = chatbotWindow.scrollHeight;
-  
+
       try {
         const response = await fetch('http://localhost:8000/chat', {
           method: 'POST',
@@ -238,10 +233,10 @@
           },
           body: JSON.stringify({ message: userMsg })
         });
-  
+
         const data = await response.json();
         const botReply = data.response || 'Sorry, I didn’t get that.';
-  
+
         appendMessage(botReply, 'bot');
         chatbotWindow.scrollTop = chatbotWindow.scrollHeight;
       } catch (error) {
@@ -249,12 +244,12 @@
         appendMessage('⚠️ There was a problem connecting to the chatbot.', 'bot');
       }
     });
-  
+
     function appendMessage(text, sender) {
       const msgDiv = document.createElement('div');
       msgDiv.className = 'chatbot-message ' + sender;
       msgDiv.innerHTML = `
-        <div class="avatar ${sender === 'bot' ? 'bot-avatar' : 'user-avatar'}">
+        <div class="avatar ${sender === 'bot' ? '' : 'user-avatar'}">
           ${sender === 'bot' ? '🤖' : '🧑'}
         </div>
         <div class="msg">${text}</div>
@@ -262,7 +257,5 @@
       chatbotWindow.appendChild(msgDiv);
     }
   </script>
-  
 </body>
-
 </html>

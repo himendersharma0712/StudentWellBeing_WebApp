@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Student Well-Being App</title>
+  <title>MindMate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     html, body {
@@ -94,9 +94,37 @@
       transition: background 0.2s;
       margin-bottom: 0.5rem;
     }
-    .mood-btn:focus {
+    .mood-btn:focus{
+      animation: shrinkInOut 1s ease-in-out forwards;
       outline: 2px solid #79b4b7;
     }
+
+    @keyframes shrinkInOut {
+  0% {
+
+    background-color: white;
+    transform: scale(0);
+  
+  }
+  30% {
+    
+    background-color: white;
+    transform: scale(1.5);
+    
+  }
+  70% {
+    
+    
+    transform: scale(1.5);
+
+    
+  }
+  100% {
+    background-color:  #79b4b7;
+    outline:  #79b4b7;
+    
+  }
+}
     .mood-btn:hover {
       background: #bce6eb;
     }
@@ -106,7 +134,8 @@
       border-radius: 8px;
       padding: 0.8rem 1.2rem;
       margin-bottom: 1rem;
-      display: inline-block;
+      display: flex;
+      justify-content: space-between;
       font-weight: bold;
       font-size: 1.2rem;
       box-shadow: 0 1px 4px #e3e8ee;
@@ -315,21 +344,21 @@
 </head>
 <body>
   <header>
-    <h1>Student Well-Being</h1>
+    <h1>MindMate</h1>
     <p>Your private space for mood tracking, journaling, and self-care.</p>
   </header>
   <nav>
     <a href="#mood">Mood Tracker</a>
-    <a href="#journal">Journal</a>
+    <a href="journal_entries.html">Journal</a>
     <a href="#selfcare">Self-Care</a>
     <a href="#resources">Resources</a>
-    <a href="chatbot.html">Chatbot</a>
+    <a href="chatbot.html">MindMate AI</a>
   </nav>
   <main>
     <section id="mood">
-      <h2>Mood Tracker 🧠</h2>
       <div class="streak-box" id="streakBox">
-        🌟 Current Streak: <span id="streakCount">0</span> days
+        <h2>Mood Tracker 🧠</h2>
+       <span>🌟 Current Streak: <span id="streakCount">0</span> days</span>
       </div>
       <div class="calendar-container">
         <div class="calendar-title" id="calendarTitle"></div>
@@ -346,7 +375,7 @@
       <div id="moodMessage" style="margin-top:1rem;color:#79b4b7;font-weight:bold;"></div>
     </section>
     <section id="journal">
-        <h2>Private Journal 📔</h2>
+        <h2>Private Journal 📒</h2>
         <textarea id="journalEntry" placeholder="Write your thoughts, feelings, or reflections here..."></textarea>
         <button onclick="saveJournalEntry()" style="background:#79b4b7;">Save Entry</button>
         <p id="saveMessage" style="color:#79b4b7; font-weight:bold;"></p>
@@ -378,6 +407,9 @@
         <li><input type="checkbox" id="move"><label for="move">Moved my body</label></li>
         <li><input type="checkbox" id="break"><label for="break">Took a mindful break</label></li>
         <li><input type="checkbox" id="sleep"><label for="sleep">Got enough sleep</label></li>
+        <li><input type="checkbox" id="nature"><label for="nature">Spent time in nature</label></li>
+        <li><input type="checkbox" id="meditate"><label for="meditate">Meditated for 15 minutes</label></li>
+        <li><input type="checkbox" id="talk"><label for="talk">Talked to someone</label></li>
       </ul>
     </section>
     <section id="resources">
@@ -407,7 +439,7 @@
     </section>
   </main>
   <footer style="text-align:center; padding:1rem; color:#23415a; background:#e3f6f5; border-top-left-radius: 24px; border-top-right-radius: 24px;">
-    &copy; 2025 Student Well-Being App &mdash; Your privacy matters.
+    &copy; 2025 MindMate AI &mdash; Your mental health matters.
   </footer>
   <script>
     // --- Streak and Mood Logging ---
@@ -567,8 +599,46 @@
     </div>
     <div class="fab-extended-container" role="group" aria-label="Floating action button">
       <button class="fab-extended" onclick="window.location.href='chatbot.html'" aria-label="Talk to our chatbot">
-        <span class="fab-icon" aria-hidden="true">💬</span>
-        Talk to our chatbot
+        <span class="fab-icon" aria-hidden="true">🤖</span>
+        Talk to MindMate AI
       </button>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
 </html>
