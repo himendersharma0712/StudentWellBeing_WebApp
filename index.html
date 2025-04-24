@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Well-Being App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f9fb;
+      margin: 0;
+      color: #23415a;
+    }
+    header {
+      background: #79b4b7;
+      color: #fff;
+      padding: 2rem 1rem 1rem 1rem;
+      text-align: center;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1rem 0;
+    }
+    nav a {
+      color: #23415a;
+      text-decoration: none;
+      font-weight: 500;
+      padding-bottom: 0.2rem;
+      border-bottom: 2px solid transparent;
+      transition: border 0.2s;
+    }
+    nav a:hover {
+      border-bottom: 2px solid #79b4b7;
+    }
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px #e3e8ee;
+      padding: 2rem;
+    }
+    section {
+      margin-bottom: 2.5rem;
+    }
+    h2 {
+      color: #79b4b7;
+      margin-top: 0;
+    }
+    .mood-options {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .mood-btn {
+      border: none;
+      background: #e3f6f5;
+      color: #23415a;
+      font-size: 1.5rem;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .mood-btn:focus {
+      outline: 2px solid #79b4b7;
+    }
+    .mood-btn:hover {
+      background: #bce6eb;
+    }
+    .streak-box {
+      background: #e3f6f5;
+      color: #23415a;
+      border-radius: 8px;
+      padding: 0.8rem 1.2rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+      font-weight: bold;
+      font-size: 1.2rem;
+      box-shadow: 0 1px 4px #e3e8ee;
+    }
+    .calendar-container {
+      margin: 1.5rem 0 1rem 0;
+    }
+    .calendar-title {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #23415a;
+    }
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      background: #e3f6f5;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+    }
+    .calendar-day, .calendar-cell {
+      text-align: center;
+      padding: 0.5em 0;
+      border-radius: 6px;
+      font-size: 1rem;
+      min-width: 32px;
+      min-height: 32px;
+    }
+    .calendar-day {
+      font-weight: bold;
+      color: #79b4b7;
+      background: #e3f6f5;
+      border: none;
+      cursor: default;
+    }
+    .calendar-cell {
+      background: #fff;
+      border: 1px solid #e3e8ee;
+      color: #23415a;
+    }
+    .calendar-cell.logged {
+      background: #79b4b7;
+      color: #fff;
+      font-weight: bold;
+      border: 2px solid #23415a;
+    }
+    .calendar-cell.today {
+      border: 2px solid #ffb347;
+    }
+    .calendar-cell:hover {
+      filter: brightness(1.1);
+    }
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 8px;
+      border: 1px solid #c7dbe6;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      resize: vertical;
+    }
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+    .checklist li {
+      margin-bottom: 0.7rem;
+      display: flex;
+      align-items: center;
+    }
+    .checklist input[type="checkbox"] {
+      accent-color: #79b4b7;
+      margin-right: 0.7rem;
+    }
+    .resources {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .resource-card {
+      background: #e3f6f5;
+      border-radius: 8px;
+      padding: 1rem;
+      color: #23415a;
+      box-shadow: 0 1px 4px #e3e8ee;
+    }
+    @media (max-width: 600px) {
+      main { padding: 1rem; }
+      .resources { grid-template-columns: 1fr; }
+      .calendar { font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Student Well-Being</h1>
+    <p>Your private space for mood tracking, journaling, and self-care.</p>
+  </header>
+  <nav>
+    <a href="#mood">Mood Tracker</a>
+    <a href="#journal">Journal</a>
+    <a href="#selfcare">Self-Care</a>
+    <a href="#resources">Resources</a>
+  </nav>
+  <main>
+    <section id="mood">
+      <h2>Mood Tracker</h2>
+      <div class="streak-box" id="streakBox">
+        🌟 Current Streak: <span id="streakCount">0</span> days
+      </div>
+      <div class="calendar-container">
+        <div class="calendar-title" id="calendarTitle"></div>
+        <div class="calendar" id="calendar"></div>
+      </div>
+      <div class="mood-options">
+        <button class="mood-btn" title="Happy" onclick="logMood('happy')">😊</button>
+        <button class="mood-btn" title="Calm" onclick="logMood('calm')">😌</button>
+        <button class="mood-btn" title="Okay" onclick="logMood('okay')">😐</button>
+        <button class="mood-btn" title="Sad" onclick="logMood('sad')">😔</button>
+        <button class="mood-btn" title="Stressed" onclick="logMood('stressed')">😣</button>
+      </div>
+      <small>Track your mood every day to spot patterns and keep your streak going!</small>
+      <div id="moodMessage" style="margin-top:1rem;color:#79b4b7;font-weight:bold;"></div>
+    </section>
+    <section id="journal">
+        <h2>Private Journal</h2>
+        <textarea id="journalEntry" placeholder="Write your thoughts, feelings, or reflections here..."></textarea>
+        <button onclick="saveJournalEntry()" style="background:#79b4b7;">Save Entry</button>
+        <p id="saveMessage" style="color:#79b4b7; font-weight:bold;"></p>
+        <p style="margin-top:1em;">
+          <a href="journal_entries.html" style="color:#79b4b7; font-weight:bold;">View All Journal Entries &rarr;</a>
+        </p>
+      </section>
+      <script>
+        function saveJournalEntry() {
+          const entry = document.getElementById('journalEntry').value.trim();
+          if (!entry) {
+            document.getElementById('saveMessage').textContent = 'Please write something before saving.';
+            return;
+          }
+          // Load existing entries
+          let entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+          // Add new entry with timestamp
+          entries.push({ text: entry, date: new Date().toISOString() });
+          // Save back to localStorage
+          localStorage.setItem('journalEntries', JSON.stringify(entries));
+          document.getElementById('saveMessage').textContent = 'Entry saved!';
+          document.getElementById('journalEntry').value = '';
+        }
+      </script>      
+    <section id="selfcare">
+      <h2>Self-Care Checklist</h2>
+      <ul class="checklist">
+        <li><input type="checkbox" id="water"><label for="water">Drank enough water</label></li>
+        <li><input type="checkbox" id="move"><label for="move">Moved my body</label></li>
+        <li><input type="checkbox" id="break"><label for="break">Took a mindful break</label></li>
+        <li><input type="checkbox" id="sleep"><label for="sleep">Got enough sleep</label></li>
+      </ul>
+    </section>
+    <section id="resources">
+      <h2>Wellness Resources</h2>
+      <div class="resources">
+        <div class="resource-card">
+          <strong>Student Helpline</strong>
+          <p>Free, confidential support 24/7.</p>
+          <a href="#" style="color:#79b4b7;">Learn more</a>
+        </div>
+        <div class="resource-card">
+          <strong>Meditation App</strong>
+          <p>Guided meditations for stress relief.</p>
+          <a href="#" style="color:#79b4b7;">Try now</a>
+        </div>
+        <div class="resource-card">
+          <strong>Motivational Articles</strong>
+          <p>Read uplifting stories and tips.</p>
+          <a href="#" style="color:#79b4b7;">Read articles</a>
+        </div>
+        <div class="resource-card">
+          <strong>Campus Counseling</strong>
+          <p>Book a session with a campus counselor.</p>
+          <a href="#" style="color:#79b4b7;">Book now</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer style="text-align:center; padding:1rem; color:#23415a; background:#e3f6f5; border-top-left-radius: 24px; border-top-right-radius: 24px;">
+    &copy; 2025 Student Well-Being App &mdash; Your privacy matters.
+  </footer>
+  <script>
+    // --- Streak and Mood Logging ---
+    function getTodayDate() {
+      const today = new Date();
+      return today.toISOString().split('T')[0];
+    }
+
+    function getYesterdayDate() {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      return yesterday.toISOString().split('T')[0];
+    }
+
+    function loadMoodLog() {
+      // Returns an object: { 'yyyy-mm-dd': mood, ... }
+      return JSON.parse(localStorage.getItem('moodLog') || '{}');
+    }
+
+    function saveMoodLog(moodLog) {
+      localStorage.setItem('moodLog', JSON.stringify(moodLog));
+    }
+
+    function loadStreak() {
+      return {
+        streak: parseInt(localStorage.getItem('streak') || '0', 10),
+        lastDate: localStorage.getItem('lastMoodDate') || null
+      };
+    }
+
+    function saveStreak(streak, lastDate) {
+      localStorage.setItem('streak', streak);
+      localStorage.setItem('lastMoodDate', lastDate);
+    }
+
+    function updateStreakDisplay(streak) {
+      document.getElementById('streakCount').textContent = streak;
+    }
+
+    function logMood(mood) {
+      const today = getTodayDate();
+      const yesterday = getYesterdayDate();
+      let { streak, lastDate } = loadStreak();
+      let moodLog = loadMoodLog();
+
+      if (moodLog[today]) {
+        document.getElementById('moodMessage').textContent = "You've already logged your mood today! 🌈";
+        return;
+      }
+
+      moodLog[today] = mood;
+      saveMoodLog(moodLog);
+
+      if (lastDate === yesterday) {
+        streak += 1;
+        document.getElementById('moodMessage').textContent = `Great job! Your streak continues at ${streak} days! 🎉`;
+      } else {
+        streak = 1;
+        document.getElementById('moodMessage').textContent = "Streak started! Keep coming back each day. 🌱";
+      }
+
+      saveStreak(streak, today);
+      updateStreakDisplay(streak);
+      renderCalendar();
+    }
+
+    // --- Calendar ---
+    function renderCalendar() {
+      const calendar = document.getElementById('calendar');
+      const calendarTitle = document.getElementById('calendarTitle');
+      const moodLog = loadMoodLog();
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth();
+
+      // Set the title
+      const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      calendarTitle.textContent = `${monthNames[month]} ${year}`;
+
+      // First day of month (0=Sun, 1=Mon, ...)
+      const firstDay = new Date(year, month, 1).getDay();
+      // Number of days in month
+      const numDays = new Date(year, month + 1, 0).getDate();
+
+      // Weekday headers
+      const weekdays = ['S','M','T','W','T','F','S'];
+      calendar.innerHTML = '';
+      for (let wd = 0; wd < 7; wd++) {
+        const day = document.createElement('div');
+        day.className = 'calendar-day';
+        day.textContent = weekdays[wd];
+        calendar.appendChild(day);
+      }
+
+      // Empty cells before 1st of the month
+      for (let i = 0; i < firstDay; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'calendar-cell';
+        cell.textContent = '';
+        calendar.appendChild(cell);
+      }
+
+      // Days of the month
+      for (let d = 1; d <= numDays; d++) {
+        const dateObj = new Date(year, month, d);
+        const dateStr = dateObj.toISOString().split('T')[0];
+        const cell = document.createElement('div');
+        cell.className = 'calendar-cell';
+        cell.textContent = d;
+
+        if (moodLog[dateStr]) {
+          cell.classList.add('logged');
+          cell.title = "Mood logged: " + moodLog[dateStr];
+        }
+        if (dateStr === getTodayDate()) {
+          cell.classList.add('today');
+        }
+        calendar.appendChild(cell);
+      }
+    }
+
+    // --- Calculate current streak (consecutive up to today) ---
+    function getCurrentStreak() {
+      const moodLog = loadMoodLog();
+      let streak = 0;
+      let date = new Date();
+      while (true) {
+        const dateStr = date.toISOString().split('T')[0];
+        if (moodLog[dateStr]) {
+          streak++;
+          date.setDate(date.getDate() - 1);
+        } else {
+          break;
+        }
+      }
+      return streak;
+    }
+
+    // --- On page load ---
+    document.addEventListener('DOMContentLoaded', function() {
+      // Show monthly calendar
+      renderCalendar();
+      // Show current streak (recalculated for calendar accuracy)
+      const streak = getCurrentStreak();
+      updateStreakDisplay(streak);
+      saveStreak(streak, getTodayDate());
+    });
+  </script>
+</body>
+</html>
